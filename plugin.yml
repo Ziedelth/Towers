@@ -1,0 +1,8 @@
+main: fr.ziedelth.towers.Towers
+name: Towers
+version: ${project.version}
+author: Ziedelth
+api-version: "1.12"
+load: POSTWORLD
+website: "https://imagineyourcraft.fr/"
+description: Plugin for IYC
