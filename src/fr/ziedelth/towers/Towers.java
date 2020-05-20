@@ -26,6 +26,8 @@ public class Towers extends JavaPlugin {
     private final EndManager endManager = new EndManager();
     private final List<Teams> teams = new ArrayList<>();
     private Location lobby_location;
+    private final int maxScore = 5;
+    private final int minPlayers = 2;
 
     public static Towers getInstance() {
         return instance;
@@ -85,7 +87,7 @@ public class Towers extends JavaPlugin {
         return teams;
     }
 
-    public boolean allHaveTheSameNumberPlayers() {
+    public boolean allTeamsHaveTheSameNumberPlayers() {
         int length = TowerPlayer.getPlayersInTeam(this.teams.get(0)).size();
         for (int i = 1; i < this.teams.size(); i++) if (TowerPlayer.getPlayersInTeam(this.teams.get(i)).size() != length) return false;
         return true;
@@ -108,6 +110,12 @@ public class Towers extends JavaPlugin {
         return team;
     }
 
+    public boolean allTeamsHaveTheSameScore() {
+        int length = TowerPlayer.getScoreOf(this.teams.get(0));
+        for (int i = 1; i < this.teams.size(); i++) if (TowerPlayer.getScoreOf(this.teams.get(i)) != length) return false;
+        return true;
+    }
+
     public Teams getTeamWithTheHighestScore() {
         Teams team = null;
         int length = Integer.MIN_VALUE;
@@ -127,5 +135,13 @@ public class Towers extends JavaPlugin {
 
     public Location getLobbyLocation() {
         return lobby_location;
+    }
+
+    public int getMaxScore() {
+        return maxScore;
+    }
+
+    public int getMinPlayers() {
+        return minPlayers;
     }
 }

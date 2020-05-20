@@ -5,6 +5,8 @@ import fr.ziedelth.towers.builders.ScoreboardBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.DisplaySlot;
 
 import java.text.SimpleDateFormat;
@@ -71,14 +73,14 @@ public class TowerPlayer {
 
         if (GameStates.isState(GameStates.LOBBY)) {
             this.player.teleport(Towers.getInstance().getLobbyLocation());
-            if (Bukkit.getOnlinePlayers().size() >= 2) Towers.getInstance().getLobbyManager().start();
+            if (Bukkit.getOnlinePlayers().size() >= Towers.getInstance().getMinPlayers()) Towers.getInstance().getLobbyManager().start();
         } else if (GameStates.isState(GameStates.PREPARATION)) {
             this.joinTeam();
             this.player.teleport(Towers.getInstance().getLobbyLocation());
+            TaskUtils.runTaskLater(() -> this.player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * Towers.getInstance().getCurrentManager().getSeconds(), 1)));
         } else if (GameStates.isState(GameStates.GAME)) {
             this.joinTeam();
             this.player.teleport(this.team.getSpawnLocation());
-            // TODO: Inventory
         } else if (GameStates.isState(GameStates.END)) {
             this.player.teleport(Towers.getInstance().getLobbyLocation());
         }
@@ -122,7 +124,7 @@ public class TowerPlayer {
     }
 
     public void joinTeam() {
-        if (Towers.getInstance().allHaveTheSameNumberPlayers()) {
+        if (Towers.getInstance().allTeamsHaveTheSameNumberPlayers()) {
             int random_int = new Random().nextInt(Towers.getInstance().getTeams().size());
             Teams random_team = Towers.getInstance().getTeams().get(random_int);
             this.setTeam(random_team);
@@ -153,5 +155,6 @@ public class TowerPlayer {
         this.player.teleport(this.team.getSpawnLocation());
         this.player.sendMessage(ChatUtils.addPersonnalScoreMessage());
         Bukkit.getOnlinePlayers().forEach(players -> players.sendMessage(ChatUtils.addTeamScoreMessage(this.team)));
+        if (getScoreOf(this.team) >= Towers.getInstance().getMaxScore()) Towers.getInstance().getGameManager().finish();
     }
 }

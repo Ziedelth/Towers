@@ -17,17 +17,27 @@ public class LobbyManager extends Timer {
     public void start() {
         super.start();
         GameStates.setState(GameStates.LOBBY);
+        TowerPlayer.getPlayers().forEach(TowerPlayer::init);
     }
 
     @Override
     public void run() {
         int seconds = this.getSeconds();
 
+        if (Bukkit.getOnlinePlayers().size() < Towers.getInstance().getMinPlayers()) {
+            this.stop();
+            this.resetSeconds();
+            Bukkit.getOnlinePlayers().forEach(players -> players.sendMessage(ChatUtils.getNotEnoughPlayers()));
+            return;
+        }
+
+        TowerPlayer.getPlayers().forEach(TowerPlayer::update);
+
         if (seconds == 60 || seconds == 30 || seconds == 10 || (seconds <= 5 && seconds >= 1)) {
             Bukkit.getOnlinePlayers().forEach(player -> {
                 player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f);
                 player.sendMessage(ChatUtils.getStartMessage(seconds));
-                TowerPlayer.get(player).update();
+                player.sendTitle("§6" + seconds, "§eLA PARTIE COMMENCE BIENTÔT !", 0, 20, 0);
             });
         }
 
