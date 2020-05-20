@@ -135,7 +135,11 @@ public class TowerPlayer {
         this.team = team;
         this.score = 0;
         this.player.sendMessage(ChatUtils.getTeamJoinMessage(this.team));
-        getPlayers().forEach(players -> players.scoreboardBuilder.addTo(this.team.getName(), this.player));
+
+        getPlayers().forEach(players -> {
+            players.scoreboardBuilder.addTo(this.team.getName(), this.player);
+            this.scoreboardBuilder.addTo(players.getTeam().getName(), players.getPlayer());
+        });
     }
 
     public boolean isInScoreLocation(Teams team) {
