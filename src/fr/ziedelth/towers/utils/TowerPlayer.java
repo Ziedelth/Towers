@@ -78,6 +78,7 @@ public class TowerPlayer {
         } else if (GameStates.isState(GameStates.GAME)) {
             this.joinTeam();
             this.player.teleport(this.team.getSpawnLocation());
+            // TODO: Inventory
         } else if (GameStates.isState(GameStates.END)) {
             this.player.teleport(Towers.getInstance().getLobbyLocation());
         }
@@ -149,5 +150,8 @@ public class TowerPlayer {
 
     public void addScore() {
         this.score++;
+        this.player.teleport(this.team.getSpawnLocation());
+        this.player.sendMessage(ChatUtils.addPersonnalScoreMessage());
+        Bukkit.getOnlinePlayers().forEach(players -> players.sendMessage(ChatUtils.addTeamScoreMessage(this.team)));
     }
 }
