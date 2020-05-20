@@ -19,4 +19,8 @@ public class ChatUtils {
     public static String getStartMessage(int seconds) {
         return getPrefix() + "La partie commence dans §e" + seconds + " seconde" + (seconds > 1 ? "s" : "") + " §7!";
     }
+
+    public static String getTeamJoinMessage(Teams team) {
+        return getPrefix() + "Vous rejoignez l'équipe " + team.getName() + " §7!";
+    }
 }
