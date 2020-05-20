@@ -23,4 +23,12 @@ public class ChatUtils {
     public static String getTeamJoinMessage(Teams team) {
         return getPrefix() + "Vous rejoignez l'équipe " + team.getName() + " §7!";
     }
+
+    public static String addPersonnalScoreMessage() {
+        return getPrefix() + "Vous avez marqué un point !";
+    }
+
+    public static String addTeamScoreMessage(Teams team) {
+        return getPrefix() + team.getName() + " §7vient de marquer un point !";
+    }
 }
