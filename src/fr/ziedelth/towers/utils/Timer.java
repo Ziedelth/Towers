@@ -37,5 +37,9 @@ public abstract class Timer {
         return this.maxSeconds - this.seconds;
     }
 
+    public void resetSeconds() {
+        this.seconds = 0;
+    }
+
     public abstract void run();
 }

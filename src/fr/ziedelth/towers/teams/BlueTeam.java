@@ -4,6 +4,7 @@ import fr.ziedelth.towers.builders.ScoreboardBuilder;
 import fr.ziedelth.towers.utils.Teams;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Location;
 
 public class BlueTeam implements Teams {
@@ -30,5 +31,10 @@ public class BlueTeam implements Teams {
     @Override
     public ScoreboardBuilder.TeamBuilder getTeamBuilder() {
         return new ScoreboardBuilder.TeamBuilder().setChatColor(ChatColor.BLUE).setName(this.getName()).setHasCollision(false);
+    }
+
+    @Override
+    public Color getArmorColor() {
+        return Color.BLUE;
     }
 }

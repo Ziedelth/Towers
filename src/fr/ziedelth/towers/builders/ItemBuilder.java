@@ -164,12 +164,12 @@ public class ItemBuilder implements Listener {
         itemMeta.setDisplayName(this.name);
         itemMeta.setUnbreakable(this.unbreakable);
         if (this.lore != null && this.lore.length > 0) itemMeta.setLore(Arrays.asList(this.lore));
-        if (this.skull != null) ((SkullMeta) itemMeta).setOwner(this.skull);
-        if (this.color != null) ((LeatherArmorMeta) itemMeta).setColor(this.color);
+        if (this.skull != null && itemMeta instanceof SkullMeta) ((SkullMeta) itemMeta).setOwner(this.skull);
+        if (this.color != null && itemMeta instanceof LeatherArmorMeta) ((LeatherArmorMeta) itemMeta).setColor(this.color);
         if (this.enchantment != null && this.enchantment.length > 0) for (int i = 0; i < this.enchantment.length; i++)
             itemMeta.addEnchant(this.enchantment[i].getEnchantment(), this.enchantment[i].getPower(), this.enchantment[i].isB());
         if (this.flag != null && this.flag.length > 0) itemMeta.addItemFlags(this.flag);
-        if (itemMeta instanceof BannerMeta) ((BannerMeta) itemMeta).setPatterns(Arrays.asList(this.pattern));
+        if (this.pattern != null && this.pattern.length > 0 && itemMeta instanceof BannerMeta) ((BannerMeta) itemMeta).setPatterns(Arrays.asList(this.pattern));
         itemStack.setItemMeta(itemMeta);
         this.itemStack = itemStack;
         return itemStack;
